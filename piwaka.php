@@ -23,7 +23,7 @@ class Piwaka {
 	public $plugin_name;
 	public $plugin_basename;
 
-	/**
+	/*
 	 * Construct
 	 */
 	function __construct() {
@@ -44,7 +44,7 @@ class Piwaka {
 
 	}
 
-	/**
+	/*
 	 * Setup. Runs once on activation.
 	 */
 	function activate_piwaka() {
@@ -55,7 +55,7 @@ class Piwaka {
 
 	}
 
-	/**
+	/*
 	 * Teardown. Runs once on deactivation.
 	 */
 	function deactivate_piwaka() {
@@ -66,7 +66,7 @@ class Piwaka {
 
 	}
 
-	/**
+	/*
 	 * Register the 'piwaka' post type and all its labels.
 	 */
 	function register_post_type() {
@@ -123,7 +123,7 @@ class Piwaka {
 	}
 
 
-	/**
+	/*
 	 * Displays a custom icon next to the Photos admin menu item.
 	 */
 	function display_custom_menubar_icon() {
