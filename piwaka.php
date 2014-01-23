@@ -73,16 +73,16 @@ class Piwaka {
 
 		// labels used in menu and edit screens
 		$postLabels = array(
-			'all_items'				=> 'All Photos',
-			'menu_name'				=> 'Photos',
-			'singular_name'			=> 'Post',
-			'edit_item'				=> 'Edit Post',
-			'new_item'				=> 'New Post',
-			'view_item'				=> 'View Post',
-			'items_archive'			=> 'Post Archive',
-			'search_items'			=> 'Search Posts',
-			'not_found'				=> 'No posts found',
-			'not_found_in_trash'	=> 'No posts found in trash'	
+			'all_items' => 'All Photos',
+			'menu_name' => 'Photos',
+			'singular_name' => 'Post',
+			'edit_item' => 'Edit Post',
+			'new_item' => 'New Post',
+			'view_item' => 'View Post',
+			'items_archive' => 'Post Archive',
+			'search_items' => 'Search Posts',
+			'not_found' => 'No posts found',
+			'not_found_in_trash' => 'No posts found in trash'	
 		);
 
 		// features available on the edit post page
@@ -94,13 +94,13 @@ class Piwaka {
 
 		// full config for the custom post type
 		$args = array(
-			'labels'			=> $postLabels,
-			'supports'			=> $supportedPostFeatures,	
+			'labels' => $postLabels,
+			'supports' => $supportedPostFeatures,	
 			'show_in_nav_menus' => true,			
-			'show_in_menu'		=> true,
-			'menu_position'		=> 5,
-			'public'			=> true,
-			'rewrite'			=> array('slug' => 'photo')
+			'show_in_menu' => true,
+			'menu_position' => 5,
+			'public' => true,
+			'rewrite' => array('slug' => 'photo')
 		);
 
 		register_post_type( 'piwaka', $args );
