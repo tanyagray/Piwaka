@@ -24,44 +24,31 @@ class Piwaka {
 			$plugin_basename;
 
 	/*
-	* Construct
-	*/
+	 * Construct
+	 */
 	function __construct() {
 
-		// The Plugin URL Path
-	    $this->plugin_url = WP_PLUGIN_URL . '/' . str_replace(basename( __FILE__), "" ,plugin_basename(__FILE__));
-	    // The Plugin DIR Path
-	    $this->plugin_dir = WP_PLUGIN_DIR . '/' . str_replace(basename( __FILE__), "" ,plugin_basename(__FILE__));
-	    // The Plugin Name. Derived from the plugin folder name.
-	    $this->plugin_name = basename(dirname(__FILE__));
-	    // The Plugin Basename
-	    $this->plugin_basename = plugin_basename(__FILE__);
+		$this->plugin_url = WP_PLUGIN_URL . '/' . str_replace(basename( __FILE__), "" ,plugin_basename(__FILE__));
+		$this->plugin_dir = WP_PLUGIN_DIR . '/' . str_replace(basename( __FILE__), "" ,plugin_basename(__FILE__));
+		$this->plugin_name = basename(dirname(__FILE__));
+		$this->plugin_basename = plugin_basename(__FILE__);
 
-	    // activation
-	    register_activation_hook( __FILE__, array( $this, 'activate_piwaka' ) );
-	    // deactivation
-	    register_deactivation_hook( __FILE__, array( $this, 'deactivate_piwaka' ) );
+		// activation and deactivation tasks
+		register_activation_hook( __FILE__, array( $this, 'activate_piwaka' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'deactivate_piwaka' ) );
 
-    	// Register the custom post type
-    	add_action( 'init', array( $this, 'register_post_type' ) );
-    	// Add URL rewrite for the api location
-    	add_action( 'generate_rewrite_rules', array( $this, 'redirect_api_requests' ) );
-    	// Display the icon for the custom post type
-    	add_action( 'admin_head', array( $this, 'cpt_icons') );
-    	
+		// wordpress action hooks
+		add_action( 'init', array( $this, 'register_post_type' ) );
+		add_action( 'generate_rewrite_rules', array( $this, 'redirect_api_requests' ) );
+		add_action( 'admin_head', array( $this, 'display_custom_menubar_icon') );
+		
 
 	}
 
-
+	
 	function activate_piwaka() {
 
 		$this->redirect_api_requests();
-
-		// Ensure the $wp_rewrite global is loaded
-		//global $wp_rewrite;
-
-		// Update the rules in htaccess
-		//$wp_rewrite->flush_rules(true);
 
 		flush_rewrite_rules();
 
@@ -69,13 +56,7 @@ class Piwaka {
 
 	function deactivate_piwaka() {
 
-		// Ensure the $wp_rewrite global is loaded
-		//global $wp_rewrite;
-
 		// TODO: Remove the rules we added
-
-		// Update the rules in htaccess
-		//$wp_rewrite->flush_rules(true);
 
 		flush_rewrite_rules();
 
@@ -83,22 +64,22 @@ class Piwaka {
 
 
 	/*
-	* Register the 'trips' post type as a menu item
-	*/
+	 * Register the 'piwaka' post type and all its labels.
+	 */
 	function register_post_type() {
 
 		$args = array(
 			'labels'	=>	array(
-	            'all_items' => 'All Photos',
+				'all_items' => 'All Photos',
 				'menu_name'	          =>	'Photos',
 				'singular_name'       =>	'Post',
-			 	'edit_item'           =>	'Edit Post',
-			 	'new_item'            =>	'New Post',
-			 	'view_item'           =>	'View Post',
-			 	'items_archive'       =>	'Post Archive',
-			 	'search_items'        =>	'Search Posts',
-			 	'not_found'	          =>	'No posts found',
-			 	'not_found_in_trash'  =>	'No posts found in trash'	
+				'edit_item'           =>	'Edit Post',
+				'new_item'            =>	'New Post',
+				'view_item'           =>	'View Post',
+				'items_archive'       =>	'Post Archive',
+				'search_items'        =>	'Search Posts',
+				'not_found'	          =>	'No posts found',
+				'not_found_in_trash'  =>	'No posts found in trash'	
 			),
 			'supports'		=>	array( 'title', 'editor', 'thumbnail' ),	
 			'show_in_nav_menus'  =>  true,			
@@ -119,26 +100,29 @@ class Piwaka {
 	 * http://mysite.com/wp-content/plugins/piwaka/
 	 */
 	function redirect_api_requests() {
-    	
+		
 		add_rewrite_rule(  
-        	'piwaka/upload/?$', 
-        	'wp-content/plugins/piwaka/api/upload.php', 
-        	'top' 
-        ); 
+			'piwaka/upload/?$', 
+			'wp-content/plugins/piwaka/api/upload.php', 
+			'top' 
+		); 
 
 	}
 
 
-	function cpt_icons() {
-	    
-	    echo '<style type="text/css" media="screen">'.
-	        	'#menu-posts-piwaka .wp-menu-image {'.
-	            	'background: url('.$this->plugin_url.'/images/piwaka-post-icon.png) no-repeat 6px -17px !important;'.
-	        	'}'.
-	        	'#menu-posts-piwaka:hover .wp-menu-image, #menu-posts-piwaka.wp-has-current-submenu .wp-menu-image {'.
-	            	'background-position:6px 7px !important;'.
-	        	'}'.
-	    	'</style>';
+	/**
+	 * Displays a custom icon next to the Photos admin menu item.
+	 */
+	function display_custom_menubar_icon() {
+		
+		echo '<style type="text/css" media="screen">'.
+				'#menu-posts-piwaka .wp-menu-image {'.
+					'background: url('.$this->plugin_url.'/images/piwaka-post-icon.png) no-repeat 6px -17px !important;'.
+				'}'.
+				'#menu-posts-piwaka:hover .wp-menu-image, #menu-posts-piwaka.wp-has-current-submenu .wp-menu-image {'.
+					'background-position:6px 7px !important;'.
+				'}'.
+			'</style>';
 	}
 
 
