@@ -18,12 +18,12 @@ include_once( WP_PLUGIN_DIR . '/piwaka/shortcodes/ImageGallery.php' );
 
 class Piwaka {
 
-	public  $plugin_url,
-			$plugin_dir,
-			$plugin_name,
-			$plugin_basename;
+	public $plugin_url;
+	public $plugin_dir;
+	public $plugin_name;
+	public $plugin_basename;
 
-	/*
+	/**
 	 * Construct
 	 */
 	function __construct() {
@@ -41,11 +41,12 @@ class Piwaka {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'generate_rewrite_rules', array( $this, 'redirect_api_requests' ) );
 		add_action( 'admin_head', array( $this, 'display_custom_menubar_icon') );
-		
 
 	}
 
-	
+	/**
+	 * Setup. Runs once on activation.
+	 */
 	function activate_piwaka() {
 
 		$this->redirect_api_requests();
@@ -54,6 +55,9 @@ class Piwaka {
 
 	}
 
+	/**
+	 * Teardown. Runs once on deactivation.
+	 */
 	function deactivate_piwaka() {
 
 		// TODO: Remove the rules we added
@@ -62,33 +66,42 @@ class Piwaka {
 
 	}
 
-
-	/*
+	/**
 	 * Register the 'piwaka' post type and all its labels.
 	 */
 	function register_post_type() {
 
-		$args = array(
-			'labels'	=>	array(
-				'all_items' => 'All Photos',
-				'menu_name'	          =>	'Photos',
-				'singular_name'       =>	'Post',
-				'edit_item'           =>	'Edit Post',
-				'new_item'            =>	'New Post',
-				'view_item'           =>	'View Post',
-				'items_archive'       =>	'Post Archive',
-				'search_items'        =>	'Search Posts',
-				'not_found'	          =>	'No posts found',
-				'not_found_in_trash'  =>	'No posts found in trash'	
-			),
-			'supports'		=>	array( 'title', 'editor', 'thumbnail' ),	
-			'show_in_nav_menus'  =>  true,			
-			'show_in_menu'  =>  true,
-			'menu_position'	=>	5,
-			'public'		=>	true,
-			'rewrite' 		=>  array('slug' => 'photo')
+		// labels used in menu and edit screens
+		$postLabels = array(
+			'all_items'				=> 'All Photos',
+			'menu_name'				=> 'Photos',
+			'singular_name'			=> 'Post',
+			'edit_item'				=> 'Edit Post',
+			'new_item'				=> 'New Post',
+			'view_item'				=> 'View Post',
+			'items_archive'			=> 'Post Archive',
+			'search_items'			=> 'Search Posts',
+			'not_found'				=> 'No posts found',
+			'not_found_in_trash'	=> 'No posts found in trash'	
 		);
 
+		// features available on the edit post page
+		$supportedPostFeatures = array( 
+			'title', 
+			'editor', 
+			'thumbnail'
+		);
+
+		// full config for the custom post type
+		$args = array(
+			'labels'			=> $postLabels,
+			'supports'			=> $supportedPostFeatures,	
+			'show_in_nav_menus' => true,			
+			'show_in_menu'		=> true,
+			'menu_position'		=> 5,
+			'public'			=> true,
+			'rewrite'			=> array('slug' => 'photo')
+		);
 
 		register_post_type( 'piwaka', $args );
 	}
@@ -116,13 +129,13 @@ class Piwaka {
 	function display_custom_menubar_icon() {
 		
 		echo '<style type="text/css" media="screen">'.
-				'#menu-posts-piwaka .wp-menu-image {'.
-					'background: url('.$this->plugin_url.'/images/piwaka-post-icon.png) no-repeat 6px -17px !important;'.
-				'}'.
-				'#menu-posts-piwaka:hover .wp-menu-image, #menu-posts-piwaka.wp-has-current-submenu .wp-menu-image {'.
-					'background-position:6px 7px !important;'.
-				'}'.
-			'</style>';
+			'#menu-posts-piwaka .wp-menu-image {'.
+				'background: url('.$this->plugin_url.'/images/piwaka-post-icon.png) no-repeat 6px -17px !important;'.
+			'}'.
+			'#menu-posts-piwaka:hover .wp-menu-image, #menu-posts-piwaka.wp-has-current-submenu .wp-menu-image {'.
+				'background-position:6px 7px !important;'.
+			'}'.
+		'</style>';
 	}
 
 
