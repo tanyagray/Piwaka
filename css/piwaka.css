@@ -1,0 +1,21 @@
+/* line 5, ../sass/image/_all.scss */
+.piwaka-image.paper {
+  border: 10px solid white;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 2px 2px 6px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.6) 2px 2px 6px;
+  box-shadow: rgba(0, 0, 0, 0.6) 2px 2px 6px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 5, ../sass/gallery/_all.scss */
+.piwaka-gallery a {
+  border: 0;
+}
+/* line 3, ../sass/gallery/_basic-gallery.scss */
+.piwaka-gallery.basic a {
+  display: block;
+  float: left;
+  margin: 5px;
+}

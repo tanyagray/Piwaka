@@ -1,0 +1,13 @@
+@import "basic-gallery";
+
+.piwaka-gallery {
+	
+	a {
+		border: 0;
+	}
+
+	&.basic {
+		@include basic-gallery;
+	}
+
+}

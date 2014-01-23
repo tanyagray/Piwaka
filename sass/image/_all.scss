@@ -1,0 +1,9 @@
+@import "paper-image";
+
+.piwaka-image {
+	
+	&.paper {
+		@include paper-image;
+	}
+
+}

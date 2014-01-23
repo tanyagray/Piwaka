@@ -1,0 +1,7 @@
+@mixin paper-image {
+		
+	border: 10px solid #FFFFFF;
+	@include box-shadow(rgba(0,0,0,0.6) 2px 2px 6px);
+	@include box-sizing(border-box);
+
+}
