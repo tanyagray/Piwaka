@@ -1,7 +1,6 @@
 <?php
 
 include_once( $_SERVER['DOCUMENT_ROOT'] . "/wp-load.php" );
-//include_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-includes/option.php' );
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-admin/includes/file.php' );
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-admin/includes/image.php' );
 include_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-content/plugins/piwaka/model/PiwakaPost.php' );
@@ -17,7 +16,6 @@ class PiwakaUploader {
 	private $verification_credentials;
 	private $verification_user_agent;
 
-	
 	private $result;
 
 
@@ -69,7 +67,9 @@ class PiwakaUploader {
 
 		global $_SERVER;
 
-		//$headers = apache_request_headers();
+		// TODO: Not supported in some version of PHP. Look into it.
+		// $headers = apache_request_headers();
+
 		$headers = array(
 			'X-Auth-Service-Provider' => $_SERVER['HTTP_X_AUTH_SERVICE_PROVIDER'],
 			'X-Verify-Credentials-Authorization' => $_SERVER['HTTP_X_VERIFY_CREDENTIALS_AUTHORIZATION'],
@@ -93,6 +93,7 @@ class PiwakaUploader {
 			'Authorization: '.$this->verification_credentials
 		);
 		
+		// Use locally to enable inspecting via a proxy
 		//curl_setopt($ch, CURLOPT_PROXY, "127.0.0.1");
 		//curl_setopt($ch, CURLOPT_PROXYPORT, 4444);
 		//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
@@ -103,7 +104,6 @@ class PiwakaUploader {
 		 
 		$response = curl_exec($ch);
 		
-
 		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 		$result_json = json_decode($response);
@@ -148,7 +148,6 @@ class PiwakaUploader {
 			);
 		}
 		
-
 	}
 
 
